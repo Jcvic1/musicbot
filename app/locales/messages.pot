@@ -1,0 +1,115 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-02-01 13:45+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: album.py:21
+msgid "Album Tracks"
+msgstr ""
+
+#: artist.py:50
+msgid "🎉🎂  <b>{}</b>  is  <b>{}</b>  today! "
+msgstr ""
+
+#: commands.py:19
+msgid "Hello, {}!"
+msgstr ""
+
+#: commands.py:21 commands.py:36 commands.py:50
+msgid "Type Search Name."
+msgstr ""
+
+#: commands.py:33
+msgid "Refreshed."
+msgstr ""
+
+#: commands.py:70
+msgid "Cancelled."
+msgstr ""
+
+#: keyboard.py:17
+msgid "Track 🎵"
+msgstr ""
+
+#: keyboard.py:18
+msgid "Album 📀"
+msgstr ""
+
+#: keyboard.py:19
+msgid "Artist 🎤"
+msgstr ""
+
+#: keyboard.py:22
+msgid "Similiar Suggestions 🗒"
+msgstr ""
+
+#: keyboard.py:32
+msgid "{} Lyrics 💬"
+msgstr ""
+
+#: keyboard.py:48
+msgid "Get Albums By {} 📀"
+msgstr ""
+
+#: keyboard.py:78
+msgid "🎵  Get Track List"
+msgstr ""
+
+#: keyboard.py:82
+msgid "📀  Get Album Tracks"
+msgstr ""
+
+#: keyboard.py:95
+msgid "🎵  {}"
+msgstr ""
+
+#: keyboard.py:108
+msgid "🎵  Get Track"
+msgstr ""
+
+#: lyrics.py:13
+msgid "Lyrics Not Found !"
+msgstr ""
+
+#: music.py:30
+msgid "Choose search type."
+msgstr ""
+
+#: music.py:55 music.py:80 music.py:138 music.py:161 music.py:196
+msgid "Type Next Search Name."
+msgstr ""
+
+#: music.py:101
+msgid "Albums by {}"
+msgstr ""
+
+#: music.py:214
+msgid "Clips by {}"
+msgstr ""
+
+#: utils.py:76
+msgid "Album 📀:  {}"
+msgstr ""
+
+#: utils.py:99 utils.py:104 utils.py:108
+msgid "Match not found!"
+msgstr ""
+
+#: utils.py:117
+msgid "No suggestions!"
+msgstr ""
+
