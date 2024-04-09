@@ -1,4 +1,5 @@
 from aiogram import types
+
 from app import keyboard, template, utils
 
 
@@ -9,10 +10,10 @@ async def get_cover(track):
         cover_url = (
             f"https://{track.cover_uri.replace('%%', '400x400')}"
         )
-        cover = types.URLInputFile(url=cover_url, filename=f"{track.title}.jpeg")
+        cover = types.URLInputFile(url=cover_url, filename=f'{track.title}.jpeg')
     else:
         cover = types.FSInputFile(
-            path="app/images/backup.jpg", filename=f"{track.title}.jpeg"
+            path='app/images/backup.jpg', filename=f'{track.title}.jpeg'
         )
 
     return cover
@@ -21,10 +22,10 @@ async def get_cover(track):
 async def get_track(callback, track):
     track_thumbnail_url = f"https://{track.cover_uri.replace('%%', '400x400')}"
     download_info = await track.get_download_info_async()
-    max_bitrate = max([info.bitrate_in_kbps for info in download_info])
+    max_bitrate = max(info.bitrate_in_kbps for info in download_info)
     url = await list(
         filter(
-            lambda t: t.codec == "mp3" and t.bitrate_in_kbps == max_bitrate,
+            lambda t: t.codec == 'mp3' and t.bitrate_in_kbps == max_bitrate,
             download_info,
         )
     )[0].get_direct_link_async()
@@ -34,14 +35,14 @@ async def get_track(callback, track):
 
 async def process_track(callback, track):
 
-    title = "N.A"
-    artists = "N.A"
-    albums = "N.A"
-    genre = "N.A"
-    explicit = "False"
-    duration = "N.A"
-    year = "N.A"
-    track_position = "N.A"
+    title = 'N.A'
+    artists = 'N.A'
+    albums = 'N.A'
+    genre = 'N.A'
+    explicit = 'False'
+    duration = 'N.A'
+    year = 'N.A'
+    track_position = 'N.A'
     track_caption = await template.get_track_caption_text()
 
     # with open("debug.txt", "w") as hh:
@@ -50,13 +51,13 @@ async def process_track(callback, track):
     if track.title:
         title = track.title
     if track.artists:
-        artists = ", ".join(artist.name for artist in track.artists)
+        artists = ', '.join(artist.name for artist in track.artists)
     if track.albums[0]:
         albums = track.albums[0].title
     if track.albums[0].genre:
         genre = track.albums[0].genre
     if track.content_warning:
-        explicit = "True"
+        explicit = 'True'
     if track.duration_ms:
         duration = await utils.seconds_to_minutes_seconds(track.duration_ms / 1000)
     if track.albums[0].year:

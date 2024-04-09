@@ -1,10 +1,13 @@
 # Musicbot
 Musicbot is a telegram bot written in python using aiogram. It generates music data including track based on user search.
+Working sample [Musicbot](https://t.me/MuzikwithLyricsbot)
 
 ## Usage
 * Install all requirements.
 * Create an env file. Add telegram bot token and yandex_token to sync with yandex for music data. Note that account with subscription will have full access to music data.
 * Execute main.py file to run.
+
+
 
 ## Documentation
 ```
@@ -36,5 +39,5 @@ HINT
 ```
 
 ## Disclaimer
-This project is developed for educational purpose only. The author does not encourage anyone to 
+This project is developed for educational purpose only. The author does not encourage anyone to
 use this for any illegal or un-ethical purpose.

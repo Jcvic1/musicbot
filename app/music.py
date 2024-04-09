@@ -1,18 +1,14 @@
 from aiogram import F, Router, types
-from aiogram.utils.i18n import gettext as _
 from aiogram.fsm.context import FSMContext
+from aiogram.utils.i18n import gettext as _
 from yandex_music import ClientAsync
 
-from app import (
-    config,
-    keyboard,
-    utils,
-    lyrics,
-    track as app_track,
-    album as app_album,
-    state as app_state,
-    callbacks as app_callbacks,
-)
+from app import album as app_album
+from app import callbacks as app_callbacks
+from app import config, keyboard, lyrics
+from app import state as app_state
+from app import track as app_track
+from app import utils
 
 music_router = Router()
 
@@ -27,7 +23,7 @@ async def process_search_input_handler(
     await state.update_data(search_input=message.text)
     await state.set_state(app_state.SearchSuggestions.search_type)
     await message.answer(
-        _("Choose search type."), reply_markup=await keyboard.get_search_type_keyboard()
+        _('Choose search type.'), reply_markup=await keyboard.get_search_type_keyboard()
     )
 
 
@@ -45,14 +41,14 @@ async def process_search_type_handler(
     await state.update_data(search_type=callback.data)
     data = await state.get_data()
     await state.clear()
-    search_text = data["search_input"]
-    search_type = data["search_type"]
-    if callback.data == "similar":
+    search_text = data['search_input']
+    search_type = data['search_type']
+    if callback.data == 'similar':
         suggestions = (await client.search_suggest(search_text)).suggestions
         await callback.answer()
         await utils.get_suggestions(callback, suggestions)
         await callback.message.answer(
-            _("Type Next Search Name."),
+            _('Type Next Search Name.'),
         )
         await state.set_state(app_state.SearchSuggestions.search_input)
     else:
@@ -61,7 +57,7 @@ async def process_search_type_handler(
         await utils.process_choice(callback, client, search_result, search_type)
 
 
-@music_router.callback_query(app_callbacks.Lyrics.filter(F.title == "lyrics"))
+@music_router.callback_query(app_callbacks.Lyrics.filter(F.title == 'lyrics'))
 async def lyrics_handler(
     callback: types.CallbackQuery,
     callback_data: app_callbacks.Lyrics,
@@ -77,13 +73,13 @@ async def lyrics_handler(
     track = (await client.tracks(callback_data.track_id))[0]
     await lyrics.get_lyrics(callback, callback_data.track_id, track)
     await callback.message.answer(
-        _("Type Next Search Name."),
+        _('Type Next Search Name.'),
     )
     await state.set_state(app_state.SearchSuggestions.search_input)
 
 
 @music_router.callback_query(
-    app_callbacks.ArtistAlbum.filter(F.title == "artist_album")
+    app_callbacks.ArtistAlbum.filter(F.title == 'artist_album')
 )
 async def artist_album_handler(
     callback: types.CallbackQuery, callback_data: app_callbacks.ArtistAlbum
@@ -98,12 +94,12 @@ async def artist_album_handler(
     albums = artist_brief.albums
     await callback.answer()
     await callback.message.answer(
-        _("Albums by {}").format(artist_brief.artist.name),
+        _('Albums by {}').format(artist_brief.artist.name),
         reply_markup=await keyboard.get_artist_albums_keyboard(albums),
     )
 
 
-@music_router.callback_query(app_callbacks.Album.filter(F.title == "album"))
+@music_router.callback_query(app_callbacks.Album.filter(F.title == 'album'))
 async def album_handler(
     callback: types.CallbackQuery, callback_data: app_callbacks.Album
 ) -> None:
@@ -118,7 +114,7 @@ async def album_handler(
     await app_album.process_album(callback, album)
 
 
-@music_router.callback_query(app_callbacks.GetAlbum.filter(F.title == "get_album"))
+@music_router.callback_query(app_callbacks.GetAlbum.filter(F.title == 'get_album'))
 async def get_album_handler(
     callback: types.CallbackQuery,
     callback_data: app_callbacks.GetAlbum,
@@ -135,12 +131,12 @@ async def get_album_handler(
     await app_album.get_album(callback, client, album)
     await state.set_state(app_state.SearchSuggestions.search_input)
     await callback.message.answer(
-        _("Type Next Search Name."),
+        _('Type Next Search Name.'),
     )
 
 
 @music_router.callback_query(
-    app_callbacks.GetAlbumTrackList.filter(F.title == "get_album_track_list")
+    app_callbacks.GetAlbumTrackList.filter(F.title == 'get_album_track_list')
 )
 async def get_album_track_list_handler(
     callback: types.CallbackQuery,
@@ -158,11 +154,11 @@ async def get_album_track_list_handler(
     await app_album.get_album_track_list(callback, client, album)
     await state.set_state(app_state.SearchSuggestions.search_input)
     await callback.message.answer(
-        _("Type Next Search Name."),
+        _('Type Next Search Name.'),
     )
 
 
-@music_router.callback_query(app_callbacks.Track.filter(F.title == "track"))
+@music_router.callback_query(app_callbacks.Track.filter(F.title == 'track'))
 async def track_handler(
     callback: types.CallbackQuery, callback_data: app_callbacks.Track
 ) -> None:
@@ -176,7 +172,7 @@ async def track_handler(
     await app_track.process_track(callback, track)
 
 
-@music_router.callback_query(app_callbacks.GetTrack.filter(F.title == "get_track"))
+@music_router.callback_query(app_callbacks.GetTrack.filter(F.title == 'get_track'))
 async def get_track_handler(
     callback: types.CallbackQuery,
     callback_data: app_callbacks.GetTrack,
@@ -193,11 +189,11 @@ async def get_track_handler(
     await app_track.get_track(callback, track)
     await state.set_state(app_state.SearchSuggestions.search_input)
     await callback.message.answer(
-        _("Type Next Search Name."),
+        _('Type Next Search Name.'),
     )
 
 
-@music_router.callback_query(app_callbacks.ArtistClip.filter(F.title == "artist_clip"))
+@music_router.callback_query(app_callbacks.ArtistClip.filter(F.title == 'artist_clip'))
 async def artist_clip_handler(
     callback: types.CallbackQuery, callback_data: app_callbacks.ArtistClip
 ) -> None:
@@ -211,12 +207,12 @@ async def artist_clip_handler(
     clips = artist_brief.videos
     await callback.answer()
     await callback.message.answer(
-        _("Clips by {}").format(artist_brief.artist.name),
+        _('Clips by {}').format(artist_brief.artist.name),
         reply_markup=await keyboard.get_artist_clips_keyboard(clips),
     )
 
 
-@music_router.callback_query(app_callbacks.Clip.filter(F.title == "clip"))
+@music_router.callback_query(app_callbacks.Clip.filter(F.title == 'clip'))
 async def clips_handler(
     callback: types.CallbackQuery, callback_data: app_callbacks.Clip
 ) -> None:

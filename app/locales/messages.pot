@@ -112,4 +112,3 @@ msgstr ""
 #: utils.py:117
 msgid "No suggestions!"
 msgstr ""
-

@@ -1,7 +1,8 @@
 import re
 import textwrap
-from aiogram.utils.markdown import hbold
+
 from aiogram.utils.i18n import gettext as _
+from aiogram.utils.markdown import hbold
 from yandex_music.exceptions import NotFoundError
 
 
@@ -21,7 +22,7 @@ async def get_sync_lyrics(callback, track):
     except NotFoundError:
         await callback.answer()
         await callback.message.answer(
-            _("Lyrics Not Found !"),
+            _('Lyrics Not Found !'),
         )
 
     else:

@@ -1,8 +1,10 @@
 # middleware.py
 from typing import Any, Awaitable, Callable, Dict, Optional, Set
-from aiogram import Router, types
-from aiogram.types import TelegramObject, User
+
+from aiogram import Router
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
+from aiogram.types import TelegramObject, User
+
 from app.config import AppLangConfig
 
 
@@ -20,7 +22,7 @@ class LocaleMiddleware(BaseMiddleware):
         """
         if exclude is None:
             exclude = set()
-        exclude_events = {"update", *exclude}
+        exclude_events = {'update', *exclude}
         for event_name, observer in router.observers.items():
             if event_name in exclude_events:
                 continue
@@ -33,11 +35,10 @@ class LocaleMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any],
     ) -> Any:
-        event_from_user: Optional[User] = data.get("event_from_user", None)
+        event_from_user: Optional[User] = data.get('event_from_user', None)
         if event_from_user is None or event_from_user.language_code is None:
-            AppLangConfig.locale = "en"
+            AppLangConfig.locale = 'en'
         else:
             AppLangConfig.locale = event_from_user.language_code
 
         return await handler(event, data)
-    
