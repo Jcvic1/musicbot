@@ -2,5 +2,5 @@ venv
 *.py[cod]
 __pycache__/
 .env
-*.txt
+debug.txt
 *.my
