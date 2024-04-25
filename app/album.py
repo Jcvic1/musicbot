@@ -1,11 +1,12 @@
 from aiogram import types
 from aiogram.utils.i18n import gettext as _
+from yandex_music import Album, ClientAsync
 
 from app import keyboard, template
 from app import track as app_track
 
 
-async def get_cover(album):
+async def get_cover(album: Album) -> types.URLInputFile | types.FSInputFile:
     cover = None
 
     if album.cover_uri:
@@ -21,7 +22,7 @@ async def get_cover(album):
     return cover
 
 
-async def get_album(callback, client, album):
+async def get_album(callback: types.CallbackQuery, client: ClientAsync, album: Album) -> types.CallbackQuery:
     album = await client.albums_with_tracks(album.id)
     tracks = []
     for volume in album.volumes:
@@ -30,7 +31,7 @@ async def get_album(callback, client, album):
         await app_track.get_track(callback, track)
 
 
-async def get_album_track_list(callback, client, album):
+async def get_album_track_list(callback: types.CallbackQuery, client: ClientAsync, album: Album) -> types.CallbackQuery:
     album = await client.albums_with_tracks(album.id)
     tracks = []
     for volume in album.volumes:
@@ -41,7 +42,7 @@ async def get_album_track_list(callback, client, album):
     )
 
 
-async def process_album(callback, album):
+async def process_album(callback: types.CallbackQuery, album: Album) -> types.CallbackQuery:
 
     title = 'N.A'
     artists = 'N.A'

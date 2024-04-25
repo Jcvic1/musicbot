@@ -5,6 +5,7 @@ import aiohttp
 import eyed3
 from aiogram import types
 from aiogram.utils.i18n import gettext as _
+from yandex_music import ClientAsync, Search, Track
 
 from app import album as app_album
 from app import artist as app_artist
@@ -12,24 +13,25 @@ from app import keyboard
 from app import track as app_track
 
 
-async def seconds_to_minutes_seconds(seconds):
+async def seconds_to_minutes_seconds(seconds: int) -> str:
     minutes, remainder = divmod(seconds, 60)
     return f'{int(minutes)}:{int(remainder):02d}'
 
 
-async def calculate_age_and_birthday(birthdate):
-    birthdate = datetime.strptime(birthdate, '%Y-%m-%d')
+async def calculate_age_and_birthday(birthdate: str) -> tuple[str, bool]:
+    date = datetime.strptime(birthdate, '%Y-%m-%d')
 
     today = datetime.now()
 
-    age = str(today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day)))
+    age = str(today.year - date.year - ((today.month, today.day) < (date.month, date.day)))
 
-    is_birthday_today = today.month == birthdate.month and today.day == birthdate.day
+    is_birthday_today: bool = today.month == date.month and today.day == date.day
 
     return age, is_birthday_today
 
 
-async def download_data(url, username, type):
+async def download_data(url: str, username: str, type: str) -> str | bytes | None:
+    result = None
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             if type == 'audio':
@@ -38,17 +40,19 @@ async def download_data(url, username, type):
                 with open(audio_path, 'wb') as audio_file:
                     audio_file.write(audio_data)
 
-                return audio_path
+                result = audio_path
             elif type == 'cover':
                 cover_data = None
                 if response.status == 200:
                     cover_data = await response.read()
-                    return cover_data
+                    result = cover_data
                 else:
-                    return cover_data
+                    result = cover_data
+
+    return result
 
 
-async def download_audio(callback, track, audio_url, cover_url):
+async def download_audio(callback: types.CallbackQuery, track: Track, audio_url: str, cover_url: str) -> types.CallbackQuery:
     audio_path = await download_data(audio_url, callback.from_user.username, 'audio')
 
     audiofile = eyed3.load(audio_path)
@@ -94,7 +98,7 @@ async def download_audio(callback, track, audio_url, cover_url):
         os.remove(audio_path)
 
 
-async def process_choice(callback, client, search_result, search_type):
+async def process_choice(callback: types.CallbackQuery, client: ClientAsync, search_result: Search, search_type: str) -> types.CallbackQuery:
     track = search_result.tracks
     album = search_result.albums
     artist = search_result.artists

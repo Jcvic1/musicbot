@@ -1,10 +1,11 @@
 from aiogram import types
 from aiogram.utils.i18n import gettext as _
+from yandex_music import Artist, BriefInfo, ClientAsync
 
 from app import keyboard, template, utils
 
 
-async def get_cover(artist_brief):
+async def get_cover(artist_brief: BriefInfo) -> types.URLInputFile | types.FSInputFile:
     cover = None
 
     if artist_brief.artist.cover:
@@ -22,7 +23,7 @@ async def get_cover(artist_brief):
     return cover
 
 
-async def process_artist(callback, client, artist):
+async def process_artist(callback: types.CallbackQuery, client: ClientAsync, artist: Artist) -> types.CallbackQuery:
     artist_brief = await client.artists_brief_info(artist.id)
 
     name = 'N.A'

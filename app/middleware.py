@@ -1,5 +1,5 @@
 # middleware.py
-from typing import Any, Awaitable, Callable, Dict, Optional, Set
+from typing import Any, Awaitable, Callable
 
 from aiogram import Router
 from aiogram.dispatcher.middlewares.base import BaseMiddleware
@@ -11,7 +11,7 @@ from app.config import AppLangConfig
 class LocaleMiddleware(BaseMiddleware):
 
     def setup(
-        self: BaseMiddleware, router: Router, exclude: Optional[Set[str]] = None
+        self: BaseMiddleware, router: Router, exclude: set[str] | None = None
     ) -> BaseMiddleware:
         """
         Register middleware for all events in the Router
@@ -31,11 +31,11 @@ class LocaleMiddleware(BaseMiddleware):
 
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: Dict[str, Any],
+        data: dict[str, Any],
     ) -> Any:
-        event_from_user: Optional[User] = data.get('event_from_user', None)
+        event_from_user: User | None = data.get('event_from_user', None)
         if event_from_user is None or event_from_user.language_code is None:
             AppLangConfig.locale = 'en'
         else:

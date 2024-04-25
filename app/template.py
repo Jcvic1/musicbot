@@ -125,25 +125,25 @@ ARTIST_CAPTION_RU = (
 )
 
 
-async def get_help_text():
+async def get_help_text() -> str:
     if AppLangConfig.locale == 'en':
         return HELP_EN
     return HELP_RU
 
 
-async def get_track_caption_text():
+async def get_track_caption_text() -> str:
     if AppLangConfig.locale == 'en':
         return TRACK_CAPTION_EN
     return TRACK_CAPTION_RU
 
 
-async def get_album_caption_text():
+async def get_album_caption_text() -> str:
     if AppLangConfig.locale == 'en':
         return ALBUM_CAPTION_EN
     return ALBUM_CAPTION_RU
 
 
-async def get_artist_caption_text():
+async def get_artist_caption_text() -> str:
     if AppLangConfig.locale == 'en':
         return ARTIST_CAPTION_EN
     return ARTIST_CAPTION_RU

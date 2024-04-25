@@ -124,13 +124,13 @@ async def get_artist_clips_keyboard(videos) -> InlineKeyboardMarkup:
     return ikb
 
 
-async def get_clip_link(title, id) -> InlineKeyboardMarkup:
-    url = f'https://frontend.vh.yandex.ru/player/{id}?no_ad=true&service=ya-video&from=ya-music-android'
-    ikb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text=title, url=url)
-            ]
-        ]
-    )
-    return ikb
+# async def get_clip_link(title, id) -> InlineKeyboardMarkup:
+#     url = f'https://frontend.vh.yandex.ru/player/{id}?no_ad=true&service=ya-video&from=ya-music-android'
+#     ikb = InlineKeyboardMarkup(
+#         inline_keyboard=[
+#             [
+#                 InlineKeyboardButton(text=title, url=url)
+#             ]
+#         ]
+#     )
+#     return ikb

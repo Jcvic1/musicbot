@@ -1,19 +1,21 @@
 import re
 import textwrap
 
+from aiogram import types
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.markdown import hbold
+from yandex_music import Track
 from yandex_music.exceptions import NotFoundError
 
 
-async def remove_timestamps(text):
+async def remove_timestamps(text: str) -> str:
     timestamp_pattern = r'\[\d{2}:\d{2}\.\d{2}\]'
     text_without_timestamps = re.sub(timestamp_pattern, '', text)
 
     return text_without_timestamps
 
 
-async def get_sync_lyrics(callback, track):
+async def get_sync_lyrics(callback: types.CallbackQuery, track: Track) -> types.CallbackQuery:
     try:
         sync_lyrics = await track.get_lyrics_async('LRC')
         lyrics_with_timestamp = await sync_lyrics.fetch_lyrics_async()
@@ -37,7 +39,7 @@ async def get_sync_lyrics(callback, track):
             await callback.message.answer(chunk)
 
 
-async def get_lyrics(callback, track_id, track):
+async def get_lyrics(callback: types.CallbackQuery, track_id: str, track: Track) -> types.CallbackQuery:
     supplements = await track.get_supplement_async(track_id)
     try:
         lyrics = supplements.lyrics.full_lyrics

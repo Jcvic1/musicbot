@@ -1,9 +1,10 @@
 from aiogram import types
+from yandex_music import Track
 
 from app import keyboard, template, utils
 
 
-async def get_cover(track):
+async def get_cover(track: Track) -> types.URLInputFile | types.FSInputFile:
     cover = None
 
     if track.cover_uri:
@@ -19,7 +20,7 @@ async def get_cover(track):
     return cover
 
 
-async def get_track(callback, track):
+async def get_track(callback: types.CallbackQuery, track: Track) -> types.CallbackQuery:
     track_thumbnail_url = f"https://{track.cover_uri.replace('%%', '400x400')}"
     download_info = await track.get_download_info_async()
     max_bitrate = max(info.bitrate_in_kbps for info in download_info)
@@ -33,7 +34,7 @@ async def get_track(callback, track):
     return await utils.download_audio(callback, track, url, track_thumbnail_url)
 
 
-async def process_track(callback, track):
+async def process_track(callback: types.CallbackQuery, track: Track) -> types.CallbackQuery:
 
     title = 'N.A'
     artists = 'N.A'
@@ -61,9 +62,9 @@ async def process_track(callback, track):
     if track.duration_ms:
         duration = await utils.seconds_to_minutes_seconds(track.duration_ms / 1000)
     if track.albums[0].year:
-        year = int(track.albums[0].year)
+        year = track.albums[0].year
     if track.albums[0].track_position:
-        track_position = int(track.albums[0].track_position.index)
+        track_position = track.albums[0].track_position.index
     await callback.bot.send_photo(
         callback.message.chat.id,
         photo=await get_cover(track),

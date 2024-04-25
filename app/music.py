@@ -212,17 +212,17 @@ async def artist_clip_handler(
     )
 
 
-@music_router.callback_query(app_callbacks.Clip.filter(F.title == 'clip'))
-async def clips_handler(
-    callback: types.CallbackQuery, callback_data: app_callbacks.Clip
-) -> None:
-    """
-    This handler processes clips
-    """
-    await callback.answer()
-    await callback.message.answer(
-        callback_data.clip_title,
-        reply_markup=await keyboard.get_clip_link(
-            callback_data.clip_title, callback_data.clip_id
-        ),
-    )
+# @music_router.callback_query(app_callbacks.Clip.filter(F.title == 'clip'))
+# async def clips_handler(
+#     callback: types.CallbackQuery, callback_data: app_callbacks.Clip
+# ) -> None:
+#     """
+#     This handler processes clips
+#     """
+#     await callback.answer()
+#     await callback.message.answer(
+#         callback_data.clip_title,
+#         reply_markup=await keyboard.get_clip_link(
+#             callback_data.clip_title, callback_data.clip_id
+#         ),
+#     )
