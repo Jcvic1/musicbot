@@ -1,7 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.utils.i18n import gettext as _
-from yandex_music import ClientAsync
 
 from app import album as app_album
 from app import callbacks as app_callbacks
@@ -34,9 +33,7 @@ async def process_search_type_handler(
     """
     This handler receives search type
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
 
     await state.update_data(search_type=callback.data)
     data = await state.get_data()
@@ -64,12 +61,10 @@ async def lyrics_handler(
     state: FSMContext,
 ) -> None:
     """
-    This handler download lyrics
+    This handler downloads lyrics
     """
 
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     track = (await client.tracks(callback_data.track_id))[0]
     await lyrics.get_lyrics(callback, callback_data.track_id, track)
     await callback.message.answer(
@@ -87,9 +82,7 @@ async def artist_album_handler(
     """
     This handler shows artist album
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     artist_brief = await client.artists_brief_info(callback_data.artist_id)
     albums = artist_brief.albums
     await callback.answer()
@@ -106,9 +99,7 @@ async def album_handler(
     """
     This handler processes album
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     album = await client.albums_with_tracks(callback_data.album_id)
     await callback.answer()
     await app_album.process_album(callback, album)
@@ -121,11 +112,9 @@ async def get_album_handler(
     state: FSMContext,
 ) -> None:
     """
-    This handler retrievs album
+    This handler retrieves album
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     album = await client.albums_with_tracks(callback_data.album_id)
     await callback.answer()
     await app_album.get_album(callback, client, album)
@@ -144,11 +133,9 @@ async def get_album_track_list_handler(
     state: FSMContext,
 ) -> None:
     """
-    This handler retrievs album track list
+    This handler retrieves album track list
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     album = await client.albums_with_tracks(callback_data.album_id)
     await callback.answer()
     await app_album.get_album_track_list(callback, client, album)
@@ -165,9 +152,7 @@ async def track_handler(
     """
     This handler processes track
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     track = (await client.tracks(callback_data.track_id))[0]
     await app_track.process_track(callback, track)
 
@@ -181,9 +166,7 @@ async def get_track_handler(
     """
     This handler retrieves track
     """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
+    client = await config.ClientConfig.init_client()
     track = (await client.tracks(callback_data.track_id))[0]
     await callback.answer()
     await app_track.get_track(callback, track)
@@ -193,23 +176,21 @@ async def get_track_handler(
     )
 
 
-@music_router.callback_query(app_callbacks.ArtistClip.filter(F.title == 'artist_clip'))
-async def artist_clip_handler(
-    callback: types.CallbackQuery, callback_data: app_callbacks.ArtistClip
-) -> None:
-    """
-    This handler shows artist clip
-    """
-    client = await ClientAsync(
-        token=config.MUSIC_TOKEN, language=config.AppLangConfig.locale
-    ).init()
-    artist_brief = await client.artists_brief_info(callback_data.artist_id)
-    clips = artist_brief.videos
-    await callback.answer()
-    await callback.message.answer(
-        _('Clips by {}').format(artist_brief.artist.name),
-        reply_markup=await keyboard.get_artist_clips_keyboard(clips),
-    )
+# @music_router.callback_query(app_callbacks.ArtistClip.filter(F.title == 'artist_clip'))
+# async def artist_clip_handler(
+#     callback: types.CallbackQuery, callback_data: app_callbacks.ArtistClip
+# ) -> None:
+#     """
+#     This handler shows artist clip
+#     """
+#     client = await config.ClientConfig.init_client()
+#     artist_brief = await client.artists_brief_info(callback_data.artist_id)
+#     clips = artist_brief.videos
+#     await callback.answer()
+#     await callback.message.answer(
+#         _('Clips by {}').format(artist_brief.artist.name),
+#         reply_markup=await keyboard.get_artist_clips_keyboard(clips),
+#     )
 
 
 # @music_router.callback_query(app_callbacks.Clip.filter(F.title == 'clip'))

@@ -112,16 +112,16 @@ async def get_track_keyboard(track) -> InlineKeyboardMarkup:
     return ikb
 
 
-async def get_artist_clips_keyboard(videos) -> InlineKeyboardMarkup:
-    ikb = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                InlineKeyboardButton(text=f'📹 {clip.title}', callback_data=app_callbacks.Clip(
-                    title='clip', clip_title=clip.title, clip_id=str(clip.provider_video_id)).pack())
-            ] for clip in videos
-        ]
-    )
-    return ikb
+# async def get_artist_clips_keyboard(videos) -> InlineKeyboardMarkup:
+#     ikb = InlineKeyboardMarkup(
+#         inline_keyboard=[
+#             [
+#                 InlineKeyboardButton(text=f'📹 {clip.title}', callback_data=app_callbacks.Clip(
+#                     title='clip', clip_title=clip.title, clip_id=str(clip.provider_video_id)).pack())
+#             ] for clip in videos
+#         ]
+#     )
+#     return ikb
 
 
 # async def get_clip_link(title, id) -> InlineKeyboardMarkup:

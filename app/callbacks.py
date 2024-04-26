@@ -38,12 +38,12 @@ class GetTrack(CallbackData, prefix='get_track'):
     track_id: str
 
 
-class ArtistClip(CallbackData, prefix='artist_clip'):
-    title: str
-    artist_id: str
+# class ArtistClip(CallbackData, prefix='artist_clip'):
+#     title: str
+#     artist_id: str
 
 
-class Clip(CallbackData, prefix='clip'):
-    title: str
-    clip_id: str
-    clip_title: str
+# class Clip(CallbackData, prefix='clip'):
+#     title: str
+#     clip_id: str
+#     clip_title: str

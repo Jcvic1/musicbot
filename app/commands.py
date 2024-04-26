@@ -1,6 +1,4 @@
-import logging
-
-from aiogram import F, Router
+from aiogram import Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message
@@ -56,9 +54,9 @@ async def command_help_handler(message: Message, state: FSMContext) -> None:
 
 
 @commands_router.message(Command('cancel'))
-@commands_router.message(F.text.casefold() == 'cancel')
 async def command_cancel_handler(message: Message, state: FSMContext) -> None:
     """
+    This handler receives messages with `/cancel` command
     Allow user to cancel any action
     """
     current_state = await state.get_state()
@@ -66,7 +64,6 @@ async def command_cancel_handler(message: Message, state: FSMContext) -> None:
         await message.delete()
         return
 
-    logging.info('Cancelling state %r', current_state)
     await state.clear()
     await message.answer(
         _('Cancelled.'),
