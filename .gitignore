@@ -1,6 +1,9 @@
 venv
+*.pyc
 *.py[cod]
 __pycache__/
 .env
+.mypy_cache
+.pytest_cache
+*.sqlite3
 debug.txt
-*.my
