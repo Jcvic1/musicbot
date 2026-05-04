@@ -8,6 +8,8 @@ RUN pip install --user --no-cache-dir -r requirements.txt
 FROM python:3.12-slim-bookworm
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+
 # Copy only the installed packages
 COPY --from=builder /root/.local /root/.local
 COPY . .
