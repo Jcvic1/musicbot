@@ -2,6 +2,7 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n, SimpleI18nMiddleware
 from aiohttp import web
@@ -29,7 +30,10 @@ async def main() -> None:
     SimpleI18nMiddleware(i18n).setup(dp)
     middleware.LocaleMiddleware().setup(dp)
 
-    bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
+    bot = Bot(
+        token=TOKEN,
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+    )
 
     app = web.Application()
     app.router.add_get('/', handle_health)
@@ -38,7 +42,7 @@ async def main() -> None:
     site = web.TCPSite(runner, '0.0.0.0', 8105)
     await site.start()
 
-    logging.info('Health check server started on port 8080')
+    logging.info('Health check server started on port 8105')
 
     await dp.start_polling(bot)
 
